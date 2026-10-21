@@ -1,0 +1,137 @@
+{%- liquid
+  assign recommendation_collection = settings.cart_recommendations_collection
+  if recommendation_collection == blank
+    assign recommendation_collection = collections['best-sellers']
+  endif
+  if recommendation_collection == blank or recommendation_collection.products_count == 0
+    assign recommendation_collection = collections['shapewear']
+  endif
+  assign shown_count = 0
+  assign cart_product_ids = cart.items | map: 'product_id'
+-%}
+{%- if settings.cart_recommendations_enabled and recommendation_collection != blank and recommendation_collection.products_count > 0 -%}
+  <section class="cart-recommendations" aria-label="{{ settings.cart_recommendations_heading | default: 'You may also love' | escape }}">
+    <h3 class="cart-recommendations__heading">{{ settings.cart_recommendations_heading | default: 'You may also love' | escape }}</h3>
+    <div class="cart-recommendations__list">
+      {%- for recommendation_product in recommendation_collection.products -%}
+        {%- unless cart_product_ids contains recommendation_product.id -%}
+          {%- assign recommendation_variant = recommendation_product.selected_or_first_available_variant -%}
+          {%- if recommendation_variant and recommendation_variant.available and shown_count < settings.cart_recommendations_count -%}
+            <article class="cart-recommendations__item">
+              <a class="cart-recommendations__image-link" href="{{ recommendation_product.url }}" aria-label="{{ recommendation_product.title | escape }}">
+                {%- if recommendation_product.featured_image -%}
+                  {{ recommendation_product.featured_image | image_url: width: 180 | image_tag: loading: 'lazy', widths: '90, 180', alt: recommendation_product.featured_image.alt | default: recommendation_product.title | escape }}
+                {%- endif -%}
+              </a>
+              <div class="cart-recommendations__details">
+                <a class="cart-recommendations__title" href="{{ recommendation_product.url }}">{{ recommendation_product.title | escape }}</a>
+                <span class="cart-recommendations__price">{{ recommendation_variant.price | money }}</span>
+                {%- assign recommendation_form_id = 'CartRecommendationForm-' | append: recommendation_product.id -%}
+                <product-form-component
+                  data-section-id="cart-drawer-section"
+                  data-product-id="{{ recommendation_product.id }}"
+                  data-product-url="{{ recommendation_product.url }}"
+                  on:submit="/handleSubmit"
+                  data-quantity-default="1"
+                >
+                  <div class="visually-hidden" aria-live="assertive" role="status" aria-atomic="true" ref="liveRegion"></div>
+                  {%- form 'product', recommendation_product, id: recommendation_form_id, class: 'cart-recommendations__form', data-type: 'add-to-cart-form' -%}
+                    <input type="hidden" name="id" ref="variantId" value="{{ recommendation_variant.id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    {% render 'add-to-cart-button',
+                      can_add_to_cart: recommendation_variant.available,
+                      add_to_cart_text: 'Add',
+                      show_icon: false,
+                      product: recommendation_product,
+                      class: 'cart-recommendations__add'
+                    %}
+                  {%- endform -%}
+                </product-form-component>
+              </div>
+            </article>
+            {%- assign shown_count = shown_count | plus: 1 -%}
+          {%- endif -%}
+        {%- endunless -%}
+        {%- if shown_count >= settings.cart_recommendations_count -%}{%- break -%}{%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% stylesheet %}
+  .cart-recommendations {
+    padding: 18px var(--cart-drawer-padding) 20px;
+    border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+  }
+  .cart-recommendations__heading {
+    margin: 0 0 14px;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+  .cart-recommendations__list {
+    display: grid;
+    gap: 12px;
+  }
+  .cart-recommendations__item {
+    display: grid;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+  }
+  .cart-recommendations__image-link {
+    display: block;
+    width: 68px;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: rgb(var(--color-foreground-rgb) / 0.04);
+  }
+  .cart-recommendations__image-link img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .cart-recommendations__details {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 5px 10px;
+    align-items: center;
+  }
+  .cart-recommendations__title {
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 1.35;
+  }
+  .cart-recommendations__price {
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+  .cart-recommendations__form {
+    grid-column: 1 / -1;
+  }
+  .cart-recommendations__add {
+    min-height: 34px;
+    padding: 7px 14px;
+    border: 1px solid #8c5a35;
+    border-radius: 2px;
+    background: #8c5a35;
+    color: #fff;
+    font: inherit;
+    font-size: 0.8125rem;
+    cursor: pointer;
+  }
+  .cart-recommendations__add:hover {
+    background: #704728;
+  }
+  @media screen and (max-width: 380px) {
+    .cart-recommendations__item {
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 10px;
+    }
+    .cart-recommendations__image-link {
+      width: 58px;
+    }
+  }
+{% endstylesheet %}

@@ -1,0 +1,80 @@
+{% liquid
+  assign faq_metafield = closest.product.metafields.custom.faqs
+%}
+
+{% if faq_metafield != blank and faq_metafield.value != blank %}
+  <div
+    class="accordion accordion--{{ block.id }} accordion--caret border-style spacing-style"
+    style="{% render 'spacing-style', settings: block.settings %}{% render 'border-override', settings: block.settings %}"
+    {{ block.shopify_attributes }}
+  >
+    {% for faq in faq_metafield.value %}
+      {% assign question = faq.question.value | default: faq.name.value %}
+      {% assign answer = faq.answer.value %}
+      {% if question != blank and answer != blank %}
+        <details class="details">
+          <summary class="details__header">
+            {{ question | escape }}
+            <span class="svg-wrapper icon-caret icon-animated">
+              {{- 'icon-caret.svg' | inline_asset_content -}}
+            </span>
+          </summary>
+          <div class="details-content">
+            {{ answer }}
+          </div>
+        </details>
+      {% endif %}
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% render 'accordion-styles' %}
+
+{% schema %}
+{
+  "name": "FAQ metaobject accordions",
+  "tag": null,
+  "settings": [
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-start",
+      "label": "Left padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-inline-end",
+      "label": "Right padding",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "unit": "px",
+      "default": 0
+    }
+  ]
+}
+{% endschema %}

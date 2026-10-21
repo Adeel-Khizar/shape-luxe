@@ -1,0 +1,195 @@
+{% doc %}
+  Empty cart drawer: free shipping bar is rendered by the caller; this renders the
+  "Customer favourites" product list (theme settings > Cart > Empty cart drawer)
+  and a "Continue shopping" button that closes the drawer.
+
+  @example
+  {% render 'cart-drawer-empty' %}
+{% enddoc %}
+
+{%- liquid
+  assign favourites_collection = settings.cart_empty_favourites_collection
+  if favourites_collection == blank
+    assign favourites_collection = settings.cart_recommendations_collection
+  endif
+  if favourites_collection == blank
+    assign favourites_collection = collections['best-sellers']
+  endif
+
+  assign favourites_heading = settings.cart_empty_favourites_heading | default: 'Customer favourites'
+  assign favourites_limit = settings.cart_empty_favourites_count | default: 3
+  assign continue_label = settings.cart_empty_continue_label | default: 'Continue shopping'
+  assign shown_count = 0
+-%}
+
+<div class="cart-empty">
+  {%- if settings.cart_empty_favourites_enabled != false and favourites_collection != blank and favourites_collection.products_count > 0 -%}
+    <section class="cart-recommendations cart-empty__favourites" aria-label="{{ favourites_heading | escape }}">
+      <h3 class="cart-recommendations__heading">{{ favourites_heading | escape }}</h3>
+      <div class="cart-recommendations__list">
+        {%- for favourite_product in favourites_collection.products -%}
+          {%- assign favourite_variant = favourite_product.selected_or_first_available_variant -%}
+          {%- if favourite_variant and favourite_variant.available and shown_count < favourites_limit -%}
+            <article class="cart-recommendations__item">
+              <a class="cart-recommendations__image-link" href="{{ favourite_product.url }}" aria-label="{{ favourite_product.title | escape }}">
+                {%- if favourite_product.featured_image -%}
+                  {{ favourite_product.featured_image | image_url: width: 180 | image_tag: loading: 'lazy', widths: '90, 180', alt: favourite_product.featured_image.alt | default: favourite_product.title | escape }}
+                {%- endif -%}
+              </a>
+              <div class="cart-recommendations__details">
+                <a class="cart-recommendations__title" href="{{ favourite_product.url }}">{{ favourite_product.title | escape }}</a>
+                <span class="cart-recommendations__price">{{ favourite_variant.price | money }}</span>
+                {%- assign favourite_form_id = 'CartEmptyFavouriteForm-' | append: favourite_product.id -%}
+                <product-form-component
+                  data-section-id="cart-drawer-section"
+                  data-product-id="{{ favourite_product.id }}"
+                  data-product-url="{{ favourite_product.url }}"
+                  on:submit="/handleSubmit"
+                  data-quantity-default="1"
+                >
+                  <div class="visually-hidden" aria-live="assertive" role="status" aria-atomic="true" ref="liveRegion"></div>
+                  {%- form 'product', favourite_product, id: favourite_form_id, class: 'cart-recommendations__form', data-type: 'add-to-cart-form' -%}
+                    <input type="hidden" name="id" ref="variantId" value="{{ favourite_variant.id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    {% render 'add-to-cart-button',
+                      can_add_to_cart: favourite_variant.available,
+                      add_to_cart_text: 'Add',
+                      show_icon: false,
+                      product: favourite_product,
+                      class: 'cart-recommendations__add'
+                    %}
+                  {%- endform -%}
+                </product-form-component>
+              </div>
+            </article>
+            {%- assign shown_count = shown_count | plus: 1 -%}
+          {%- endif -%}
+          {%- if shown_count >= favourites_limit -%}{%- break -%}{%- endif -%}
+        {%- endfor -%}
+      </div>
+    </section>
+  {%- endif -%}
+
+  <div class="cart-empty__footer">
+    <button type="button" class="button cart-empty__continue" on:click="#cart-drawer/close">
+      <span class="button-text">{{ continue_label | escape }}</span>
+    </button>
+  </div>
+</div>
+
+{% stylesheet %}
+  cart-drawer-component .cart-drawer__inner .cart-drawer__content.cart-drawer__content--empty-state {
+    text-align: start;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+
+  .cart-drawer__content--empty-state .cart-drawer__items {
+    display: none;
+  }
+
+  .cart-drawer__content--empty-state .cart-empty__heading {
+    margin: 0;
+    padding: 0 var(--cart-drawer-padding) 6px;
+    text-align: start;
+  }
+
+  .cart-empty {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    min-height: 0;
+  }
+
+  /* Same rules as snippets/cart-recommendations.liquid. Repeated here because the theme only
+     loads a snippet's stylesheet when that snippet renders, and it doesn't render for an empty cart. */
+  .cart-empty .cart-recommendations {
+    padding: 18px var(--cart-drawer-padding) 20px;
+    border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+  }
+  .cart-empty .cart-recommendations__heading {
+    margin: 0 0 14px;
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+  .cart-empty .cart-recommendations__list {
+    display: grid;
+    gap: 12px;
+  }
+  .cart-empty .cart-recommendations__item {
+    display: grid;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 12px;
+    align-items: center;
+  }
+  .cart-empty .cart-recommendations__image-link {
+    display: block;
+    width: 68px;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: rgb(var(--color-foreground-rgb) / 0.04);
+  }
+  .cart-empty .cart-recommendations__image-link img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .cart-empty .cart-recommendations__details {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 5px 10px;
+    align-items: center;
+  }
+  .cart-empty .cart-recommendations__title {
+    color: inherit;
+    text-decoration: none;
+    font-size: 0.875rem;
+    line-height: 1.35;
+  }
+  .cart-empty .cart-recommendations__price {
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+  .cart-empty .cart-recommendations__form {
+    grid-column: 1 / -1;
+  }
+  .cart-empty .cart-recommendations__add {
+    min-height: 34px;
+    padding: 7px 14px;
+    border: 1px solid #8c5a35;
+    border-radius: 2px;
+    background: #8c5a35;
+    color: #fff;
+    font: inherit;
+    font-size: 0.8125rem;
+    cursor: pointer;
+  }
+  .cart-empty .cart-recommendations__add:hover {
+    background: #704728;
+  }
+  @media screen and (max-width: 380px) {
+    .cart-empty .cart-recommendations__item {
+      grid-template-columns: 58px minmax(0, 1fr);
+      gap: 10px;
+    }
+    .cart-empty .cart-recommendations__image-link {
+      width: 58px;
+    }
+  }
+
+  .cart-empty__footer {
+    position: sticky;
+    bottom: 0;
+    margin-top: auto;
+    padding: 20px var(--cart-drawer-padding) 28px;
+    border-top: 1px solid rgb(var(--color-foreground-rgb) / 0.12);
+    background-color: var(--color-background);
+  }
+
+  .cart-empty .button.cart-empty__continue {
+    width: 100%;
+    min-height: 52px;
+  }
+{% endstylesheet %}

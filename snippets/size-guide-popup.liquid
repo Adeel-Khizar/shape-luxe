@@ -1,0 +1,112 @@
+{% liquid
+  assign size_guide = product_resource.metafields.custom.size_guide.value
+  assign size_guide_image = size_guide.image.value
+  assign has_inches = false
+  assign has_cm = false
+  if size_guide.inches_table.value != blank
+    assign has_inches = true
+  endif
+  if size_guide.cm_table.value != blank
+    assign has_cm = true
+  endif
+%}
+{% if size_guide != blank %}
+  <div class="size-guide" data-size-guide>
+    <button type="button" class="size-guide__trigger" data-size-guide-open aria-haspopup="dialog" aria-controls="SizeGuideDialog-{{ product_resource.id }}">Size Guide</button>
+    <dialog id="SizeGuideDialog-{{ product_resource.id }}" class="size-guide__dialog" aria-labelledby="SizeGuideTitle-{{ product_resource.id }}" data-size-guide-dialog>
+      <div class="size-guide__panel">
+        <button type="button" class="size-guide__close" data-size-guide-close aria-label="Close size guide"><span aria-hidden="true">&times;</span></button>
+        <h2 class="size-guide__title" id="SizeGuideTitle-{{ product_resource.id }}">{{ size_guide.title.value | default: 'Size Guide' | escape }}</h2>
+        {% if size_guide.introduction != blank %}<div class="size-guide__intro rte">{{ size_guide.introduction | metafield_tag }}</div>{% endif %}
+        {% if size_guide_image != blank %}
+          {% assign size_guide_alt = size_guide_image.alt | default: size_guide.title.value | default: 'Size guide' %}
+          <div class="size-guide__image">
+            {{ size_guide_image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '400, 700, 1000, 1400', sizes: '(min-width: 800px) 700px, 100vw', alt: size_guide_alt }}
+          </div>
+        {% endif %}
+        {% if has_inches and has_cm %}
+          <div class="size-guide__tabs" role="tablist" aria-label="Measurement units">
+            <button type="button" class="size-guide__tab is-active" role="tab" aria-selected="true" aria-controls="SizeGuideInches-{{ product_resource.id }}" data-size-guide-tab="inches">By Inches</button>
+            <button type="button" class="size-guide__tab" role="tab" aria-selected="false" aria-controls="SizeGuideCm-{{ product_resource.id }}" data-size-guide-tab="cm">By cm</button>
+          </div>
+        {% endif %}
+        {% if has_inches %}
+          <div class="size-guide__table-wrap" id="SizeGuideInches-{{ product_resource.id }}"{% if has_cm %} role="tabpanel"{% endif %} data-size-guide-panel="inches">
+            <div class="size-guide__table-container" data-size-guide-table="inches"></div>
+            <script type="application/json" data-size-guide-data="inches">{{ size_guide.inches_table.value | json }}</script>
+          </div>
+        {% endif %}
+        {% if has_cm %}
+          <div class="size-guide__table-wrap" id="SizeGuideCm-{{ product_resource.id }}"{% if has_inches %} role="tabpanel" hidden{% endif %} data-size-guide-panel="cm">
+            <div class="size-guide__table-container" data-size-guide-table="cm"></div>
+            <script type="application/json" data-size-guide-data="cm">{{ size_guide.cm_table.value | json }}</script>
+          </div>
+        {% endif %}
+      </div>
+    </dialog>
+  </div>
+{% endif %}
+{% stylesheet %}
+  .size-guide { margin-block: 12px 4px; }
+  .size-guide__trigger { appearance:none; border:0; padding:0; background:transparent; color:#8c5a35; text-decoration:underline; text-underline-offset:3px; font:inherit; font-size:.95em; cursor:pointer; }
+  .size-guide__trigger:hover { color:#704728; }
+  .size-guide__dialog { width:min(760px,calc(100vw - 28px)); max-width:760px; max-height:min(86vh,900px); padding:0; border:0; border-radius:12px; color:#24211f; background:#fff; overflow:auto; box-shadow:0 20px 70px rgb(0 0 0 / 24%); }
+  .size-guide__dialog::backdrop { background:rgb(18 16 14 / 58%); }
+  .size-guide__panel { position:relative; padding:clamp(22px,4vw,38px); }
+  .size-guide__close { position:absolute; top:12px; right:14px; width:38px; height:38px; border:0; border-radius:50%; background:#f5f1ee; color:#29231f; font-size:28px; line-height:1; cursor:pointer; }
+  .size-guide__title { margin:0 42px 16px 0; font-size:clamp(22px,3vw,30px); line-height:1.2; }
+  .size-guide__intro { margin-bottom:22px; }
+  .size-guide__image { margin-bottom:20px; }
+  .size-guide__image img { display:block; width:100%; height:auto; border-radius:8px; }
+  .size-guide__tabs { display:flex; gap:8px; border-bottom:1px solid #e7dfd8; margin-bottom:16px; }
+  .size-guide__tab { border:0; border-bottom:3px solid transparent; padding:12px 16px; margin-bottom:-1px; background:transparent; color:#5f5751; font:inherit; font-weight:600; cursor:pointer; }
+  .size-guide__tab.is-active { color:#8c5a35; border-bottom-color:#8c5a35; }
+  .size-guide__table-wrap[hidden] { display:none!important; }
+  .size-guide__table-container { width:100%; overflow-x:auto; }
+  .size-guide__table { width:100%; border-collapse:collapse; font-size:14px; text-align:center; }
+  .size-guide__table th { background:#f5f1ee; color:#332a24; font-weight:700; }
+  .size-guide__table th,.size-guide__table td { padding:12px 10px; border:1px solid #e5ddd6; }
+  .size-guide__table tbody tr:nth-child(even) { background:#fcfaf8; }
+  @media(max-width:520px) { .size-guide__panel { padding:24px 16px; } .size-guide__table { min-width:470px; } .size-guide__table th,.size-guide__table td { padding:10px 8px; } .size-guide__tab { padding:11px 12px; } }
+{% endstylesheet %}
+<script>
+  (() => {
+    const script = document.currentScript;
+    const guide = script && script.previousElementSibling && script.previousElementSibling.matches('[data-size-guide]') ? script.previousElementSibling : script?.parentElement?.querySelector('[data-size-guide]');
+    if (!guide || guide.dataset.initialized === 'true') return;
+    guide.dataset.initialized = 'true';
+    const dialog = guide.querySelector('[data-size-guide-dialog]');
+    const openButton = guide.querySelector('[data-size-guide-open]');
+    const closeButton = guide.querySelector('[data-size-guide-close]');
+    if (!dialog || !openButton || !closeButton) return;
+    const firstPanel = guide.querySelector('[data-size-guide-panel]');
+    const defaultUnit = firstPanel ? firstPanel.dataset.sizeGuidePanel : null;
+    const buildTable = unit => {
+      const data = guide.querySelector('[data-size-guide-data="' + unit + '"]');
+      const target = guide.querySelector('[data-size-guide-table="' + unit + '"]');
+      if (!data || !target || target.dataset.built === 'true') return;
+      let raw = '';
+      try { raw = JSON.parse(data.textContent || '""'); } catch (error) {}
+      const rows = String(raw || '').split(/\r?\n/).map(row => row.trim()).filter(Boolean).map(row => row.split('|').map(cell => cell.trim()));
+      if (!rows.length) { target.closest('[data-size-guide-panel]')?.setAttribute('hidden', ''); return; }
+      const table = document.createElement('table'); table.className = 'size-guide__table';
+      const thead = document.createElement('thead'); const head = document.createElement('tr');
+      rows[0].forEach(value => { const th = document.createElement('th'); th.scope = 'col'; th.textContent = value; head.appendChild(th); });
+      thead.appendChild(head); table.appendChild(thead);
+      const tbody = document.createElement('tbody');
+      rows.slice(1).forEach(row => { const tr = document.createElement('tr'); rows[0].forEach((_, i) => { const td = document.createElement('td'); td.textContent = row[i] || ''; tr.appendChild(td); }); tbody.appendChild(tr); });
+      table.appendChild(tbody); target.replaceChildren(table); target.dataset.built = 'true';
+    };
+    const setUnit = unit => {
+      if (!unit) return;
+      guide.querySelectorAll('[data-size-guide-tab]').forEach(tab => { const active = tab.dataset.sizeGuideTab === unit; tab.classList.toggle('is-active', active); tab.setAttribute('aria-selected', active ? 'true' : 'false'); });
+      guide.querySelectorAll('[data-size-guide-panel]').forEach(panel => { panel.hidden = panel.dataset.sizeGuidePanel !== unit; });
+      buildTable(unit);
+    };
+    openButton.addEventListener('click', () => { setUnit(defaultUnit); if (dialog.showModal) dialog.showModal(); else dialog.setAttribute('open',''); });
+    closeButton.addEventListener('click', () => { if (dialog.close) dialog.close(); else dialog.removeAttribute('open'); });
+    dialog.addEventListener('click', event => { if (event.target === dialog) { if (dialog.close) dialog.close(); else dialog.removeAttribute('open'); } });
+    guide.querySelectorAll('[data-size-guide-tab]').forEach(tab => tab.addEventListener('click', () => setUnit(tab.dataset.sizeGuideTab)));
+    if (defaultUnit) buildTable(defaultUnit);
+  })();
+</script>
