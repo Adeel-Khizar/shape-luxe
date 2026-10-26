@@ -304,7 +304,7 @@
                     <div>
                       {% if item.original_price != item.final_price %}
                         <span class="visually-hidden">{{ 'content.price_sale' | t }}</span>
-                        <span
+                        <span class="price"
                           ><bdi>{{ item.final_price | money }}</bdi></span
                         >
                         <span class="visually-hidden">{{ 'content.price_regular' | t }}</span>
@@ -322,7 +322,7 @@
                           <span class="visually-hidden">{{ 'content.price' | t }}</span>
                         {% endif %}
 
-                        <span
+                        <span class="price"
                           ><bdi>{{ item.original_price | money }}</bdi></span
                         >
 
@@ -409,7 +409,7 @@
                   role="cell"
                   headers="productTotal"
                 >
-                  <text-component value="{{ price | strip_html }}"
+                  <text-component class="price" value="{{ price | strip_html }}"
                     ><bdi>{{ price }}</bdi></text-component
                   >
                   {%- if item.unit_price_measurement -%}

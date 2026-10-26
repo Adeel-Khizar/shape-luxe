@@ -41,8 +41,6 @@
         {{ empty_cart_heading | escape }}
       </h2>
 
-      {% render 'free-shipping-progress' %}
-
       {% comment %} Kept for the theme's cart scripts; hidden by cart-drawer-empty styles. {% endcomment %}
       <div class="cart-drawer__items">
         {% render 'cart-products', force_empty: true, context: 'drawer' %}
