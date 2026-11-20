@@ -1,0 +1,78 @@
+{%- doc -%}
+  Renders a product's options with the PDP variant picker's swatch and button markup, for
+  add-on pickers outside `variant-picker` (bundle items, frequently bought together). Pair with
+  the helpers in `@theme/variant-option-buttons` to resolve variants and mark sold-out values.
+
+  @param {object} product_resource - The product whose options to render
+  @param {string} name_prefix - Unique prefix for each option's radio group name
+  @param {string} on_change - Component handler for option changes, e.g. '/handleChange'
+  @param {string} [legend_prefix] - Visually hidden text before each option name, e.g. 'Item 1'
+  @param {boolean} [compact] - Smaller size buttons for narrow rows
+
+  @example
+  {% render 'variant-option-buttons', product_resource: product, name_prefix: 'Bundle-2-1', on_change: '/handleItemChange', legend_prefix: 'Item 1' %}
+{%- enddoc -%}
+
+<div class="variant-option-buttons{% if compact %} variant-option-buttons--compact{% endif %}">
+  {%- for option in product_resource.options_with_values -%}
+    {%- liquid
+      assign option_name = name_prefix | append: '-' | append: option.position
+      assign swatch_count = option.values | map: 'swatch' | compact | size
+      assign longest_value = 0
+      for value in option.values
+        if value.size > longest_value
+          assign longest_value = value.size
+        endif
+      endfor
+    -%}
+    <fieldset
+      class="variant-option variant-option--buttons variant-option-buttons__option{% if swatch_count > 0 %} variant-option--swatches{% else %} variant-option--{{ settings.variant_button_width }}{% endif %}"
+      data-option-position="{{ option.position }}"
+      style="--variant-ch: {{ longest_value | times: 0.65 }}em;"
+    >
+      <legend>
+        {%- if legend_prefix != blank -%}
+          <span class="visually-hidden">{{ legend_prefix | escape }}</span>
+        {% endif -%}
+        {{ option.name | escape -}}
+        {%- if swatch_count > 0 -%}
+          <span class="variant-option__swatch-value" data-option-selected-value>
+            {{- option.selected_value | escape -}}
+          </span>
+        {%- endif -%}
+      </legend>
+      {%- for value in option.values -%}
+        <label class="variant-option__button-label{% if swatch_count > 0 %} variant-option__button-label--has-swatch{% endif %}">
+          <input
+            type="radio"
+            name="{{ option_name }}"
+            value="{{ value | escape }}"
+            aria-label="{{ value.name | escape }}"
+            data-option-available="true"
+            on:change="{{ on_change }}"
+            {% if value.selected %}
+              checked
+            {% endif %}
+          >
+          {%- if swatch_count > 0 -%}
+            {% render 'swatch', swatch: value.swatch, variant_image: value.variant.featured_media, mode: 'unscaled' %}
+          {%- else -%}
+            <span class="variant-option__button-label__pill"></span>
+            <span class="variant-option__button-label__text">{{ value | escape }}</span>
+          {%- endif -%}
+          <svg
+            viewBox="0 0 100 46"
+            preserveAspectRatio="xMidYMid slice"
+            class="variant-option__strikethrough"
+            aria-hidden="true"
+          >
+            <line x1="100" y1="0" x2="0" y2="46" vector-effect="non-scaling-stroke" />
+            <line x1="100" y1="0" x2="0" y2="46" vector-effect="non-scaling-stroke" />
+          </svg>
+        </label>
+      {%- endfor -%}
+    </fieldset>
+  {%- endfor -%}
+</div>
+
+{% render 'variant-option-buttons-styles' %}

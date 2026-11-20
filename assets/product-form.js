@@ -324,6 +324,13 @@ class ProductFormComponent extends Component {
   handleSubmit(event) {
     event.preventDefault();
 
+    // A multi-item bundle tier in this section replaces the single-variant add.
+    const bundleItems = this.#getBundleItems();
+    if (bundleItems) {
+      this.#processBatchAddToCart(bundleItems);
+      return;
+    }
+
     if (this.#variantChangeInProgress) {
       this.#addToCartQueue.push(this.#createQueuedAddToCartItem());
       this.refs.addToCartButtonContainer?.animateAddToCart?.();
@@ -331,6 +338,28 @@ class ProductFormComponent extends Component {
     }
 
     this.#processAddToCart(undefined, undefined, event);
+  }
+
+  /**
+   * Adds several variants in one request through the form's cart flow (events, drawer, errors).
+   * Used by add-on blocks in the same section, such as Frequently bought together.
+   * @param {Array<{variantId: string, quantity: number}>} items
+   */
+  addItems(items) {
+    this.#processBatchAddToCart(items);
+  }
+
+  /**
+   * Cart items from a bundle offer for this product in the same section, or null when no
+   * multi-item tier is active. An empty array means the bundle blocked the add.
+   * @returns {Array<{variantId: string, quantity: number}> | null}
+   */
+  #getBundleItems() {
+    /** @type {(HTMLElement & { getCartItems?: () => Array<{variantId: string, quantity: number}> | null }) | null} */
+    const bundle = this.closest('.shopify-section')?.querySelector('bundle-offer-component') ?? null;
+    if (!bundle || bundle.dataset.productId !== this.dataset.productId) return null;
+
+    return typeof bundle.getCartItems === 'function' ? bundle.getCartItems() : null;
   }
 
   /** @returns {number} */

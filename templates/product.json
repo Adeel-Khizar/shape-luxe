@@ -314,6 +314,34 @@
                 "padding-inline-end": 0
               },
               "blocks": {}
+            },
+            "bundle_offer_main": {
+              "type": "bundle-offer",
+              "settings": {
+                "heading": "Buy More, Save More",
+                "subheading": "Get more of your favorite products",
+                "tier_2_discount": 5,
+                "tier_3_discount": 8,
+                "tier_4_discount": 10,
+                "default_tier": "1",
+                "best_value_tier": "4",
+                "badge_text": "Best Value",
+                "card_background": "#F5EDE5",
+                "padding-block-start": 8,
+                "padding-block-end": 8
+              },
+              "blocks": {}
+            },
+            "frequently_bought_together_main": {
+              "type": "frequently-bought-together",
+              "settings": {
+                "heading": "Frequently bought together",
+                "max_products": 2,
+                "card_background": "#F5EDE5",
+                "padding-block-start": 8,
+                "padding-block-end": 8
+              },
+              "blocks": {}
             }
           },
           "block_order": [
@@ -321,7 +349,9 @@
             "text_aEtTtq",
             "divider_VJhene",
             "variant_picker_R3rGDr",
+            "bundle_offer_main",
             "buy_buttons_eYQEYi",
+            "frequently_bought_together_main",
             "accordion_XwKzN4"
           ]
         }

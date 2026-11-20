@@ -9,6 +9,9 @@
  */
 {
   "names": {
+    "frequently_bought_together": "Bought together",
+    "frequently_bought_together_rendering": "Bought together items",
+    "bundle_offer": "Bundle offer",
     "404": "404",
     "colors": "調色盤",
     "custom_section": "自訂區段",
@@ -171,6 +174,15 @@
     "disclosures": "資訊揭露"
   },
   "settings": {
+    "fbt_max_products": "Recommended products",
+    "bundle_subheading": "Subheading",
+    "bundle_tier_2_discount": "Buy 2 discount",
+    "bundle_tier_3_discount": "Buy 3 discount",
+    "bundle_tier_4_discount": "Buy 4 discount",
+    "bundle_default_tier": "Preselected option",
+    "bundle_best_value_tier": "Badge on",
+    "bundle_badge_text": "Badge text",
+    "bundle_card_background": "Card background",
     "alignment": "對齊",
     "autoplay": "自動播放",
     "background": "背景",
@@ -586,6 +598,10 @@
     "title_preset": "標題預設設定"
   },
   "options": {
+    "bundle_buy_1": "Buy 1",
+    "bundle_buy_2": "Buy 2",
+    "bundle_buy_3": "Buy 3",
+    "bundle_buy_4": "Buy 4",
     "apple": "Apple",
     "arrow": "箭頭",
     "auto": "自動",
@@ -868,6 +884,9 @@
     "direction_top_start": "左上"
   },
   "content": {
+    "fbt_recommendations_info": "Shows complementary products set in the Shopify Search & Discovery app. Falls back to related products when none are set.",
+    "bundle_discounts": "Discount tiers",
+    "bundle_discounts_info": "Prices shown here are a preview. Create matching Shopify automatic discounts so checkout charges the same amounts.",
     "advanced": "進階",
     "background_image": "背景圖片",
     "background_video": "背景影片",

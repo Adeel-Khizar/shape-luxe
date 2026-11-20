@@ -1,0 +1,59 @@
+{%- doc -%}
+  Styles for the `variant-option-buttons` snippet. Render early from consumers whose option
+  markup is inserted after page load, such as Frequently bought together.
+
+  @example
+  {% render 'variant-option-buttons-styles' %}
+{%- enddoc -%}
+
+{% render 'swatch-styles' %}
+{% render 'variant-picker-styles' %}
+
+{% stylesheet %}
+  .variant-option-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-md);
+    min-width: 0;
+  }
+
+  .variant-option-buttons__option {
+    min-width: 0;
+
+    .variant-option__button-label--has-swatch {
+      border-radius: var(--variant-picker-swatch-radius);
+    }
+
+    /* Availability depends on the other selected options, so JS sets it; the line shows only when sold out */
+    .variant-option__button-label:not(:has([data-option-available='false'])) .variant-option__strikethrough {
+      display: none;
+    }
+  }
+  /* Compact options for add-on pickers in narrow rows: smaller buttons, swatches at 75% of the theme size */
+  .variant-option-buttons--compact {
+    gap: var(--gap-sm);
+    font-size: var(--font-size--xs);
+
+    .swatch.swatch--unscaled {
+      --swatch-width: calc(var(--variant-picker-swatch-width) * 0.75);
+      --swatch-height: calc(var(--variant-picker-swatch-height) * 0.75);
+    }
+
+    .variant-option--buttons {
+      --variant-option-padding-inline: var(--padding-sm);
+
+      gap: var(--gap-xs);
+    }
+
+    .variant-option--buttons legend {
+      margin-block-end: var(--margin-2xs, 4px);
+    }
+
+    .variant-option__button-label:not(.variant-option__button-label--has-swatch) {
+      flex-basis: 2.4em;
+      min-height: 2.4em;
+      padding-block: var(--padding-2xs);
+      padding-inline: var(--padding-sm);
+    }
+  }
+{% endstylesheet %}

@@ -1,0 +1,211 @@
+{%- doc -%}
+  Frequently bought together styles, shared by the block and the rendering section that
+  supplies its recommended items.
+
+  @example
+  {% render 'frequently-bought-together-styles' %}
+{%- enddoc -%}
+
+{% render 'price-styles' %}
+{% render 'variant-option-buttons-styles' %}
+
+{% stylesheet %}
+  .fbt {
+    --fbt-media-size: 64px;
+    --fbt-radius: var(--style-border-radius-inputs, var(--style-border-radius-md));
+
+    display: block;
+    min-width: 0;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  .fbt__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+    padding: var(--padding-lg);
+    border: var(--style-border-width, 1px) solid var(--color-variant-border);
+    border-radius: var(--fbt-radius);
+    background-color: var(--fbt-card-background, var(--color-variant-background));
+    color: var(--color-variant-text);
+    min-width: 0;
+  }
+
+  .fbt__heading {
+    margin: 0;
+  }
+
+  .fbt__list {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+  }
+
+  .fbt__item {
+    --fbt-checkbox-size: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-sm);
+    padding-block: var(--padding-sm);
+    transition: opacity var(--animation-speed) var(--animation-easing);
+
+    & + & {
+      border-block-start: var(--style-border-width, 1px) solid var(--color-variant-border);
+    }
+
+    &:has(.fbt__checkbox:not(:checked)) {
+      opacity: var(--opacity-60, 0.6);
+    }
+  }
+
+  .fbt__summary {
+    display: grid;
+    grid-template-columns: var(--fbt-checkbox-size) var(--fbt-media-size) minmax(0, 1fr) auto;
+    grid-template-areas: 'check media info price';
+    align-items: center;
+    gap: var(--gap-sm);
+  }
+
+  /* Options sit under the title, aligned past the checkbox and image */
+  .fbt__options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-xs);
+    padding-inline-start: calc(var(--fbt-checkbox-size) + var(--fbt-media-size) + var(--gap-sm) * 2);
+    min-width: 0;
+  }
+
+  /* Checkbox follows the selected variant colors used by the PDP option buttons */
+  .fbt__checkbox {
+    grid-area: check;
+    width: var(--fbt-checkbox-size);
+    height: var(--fbt-checkbox-size);
+    margin: 0;
+    accent-color: var(--color-selected-variant-background);
+    cursor: pointer;
+  }
+
+  .fbt__media {
+    grid-area: media;
+    display: block;
+    width: var(--fbt-media-size);
+    aspect-ratio: 1;
+    border-radius: var(--style-border-radius-sm, 4px);
+    overflow: hidden;
+    background-color: rgb(var(--color-foreground-rgb) / var(--opacity-5));
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .fbt__details {
+    grid-area: info;
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-2xs);
+    min-width: 0;
+  }
+
+  .fbt__label {
+    font-size: var(--font-size--xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .fbt__title {
+    color: inherit;
+    font-size: var(--font-size--sm);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+  }
+
+  a.fbt__title:hover {
+    text-decoration: underline;
+  }
+
+  .fbt__variant {
+    font-size: var(--font-size--xs);
+    color: rgb(var(--color-variant-text-rgb) / var(--opacity-subdued-text));
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .fbt__item-error {
+    font-size: var(--font-size--xs);
+    color: var(--color-error);
+  }
+
+  .fbt__price {
+    grid-area: price;
+    align-self: start;
+    font-size: var(--font-size--sm);
+    text-align: end;
+  }
+
+  /* Narrow screens: price moves under the title and options use the full row width */
+  @media screen and (max-width: 749px) {
+    .fbt__card {
+      padding: var(--padding-md);
+    }
+
+    .fbt__summary {
+      grid-template-columns: var(--fbt-checkbox-size) var(--fbt-media-size) minmax(0, 1fr);
+      grid-template-areas:
+        'check media info'
+        'check media price';
+      grid-template-rows: auto auto;
+      row-gap: var(--gap-2xs);
+      align-content: center;
+    }
+
+    .fbt__details {
+      align-self: end;
+    }
+
+    .fbt__price {
+      align-self: start;
+      text-align: start;
+    }
+
+    .fbt__options {
+      padding-inline-start: 0;
+    }
+  }
+
+  .fbt__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--gap-sm);
+    padding-block-start: var(--padding-sm);
+    border-block-start: var(--style-border-width, 1px) solid var(--color-variant-border);
+  }
+
+  .fbt__total {
+    margin: 0;
+    font-size: var(--font-size--sm);
+  }
+
+  .fbt__button {
+    flex: 1 1 12em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fbt__item {
+      transition: none;
+    }
+  }
+{% endstylesheet %}

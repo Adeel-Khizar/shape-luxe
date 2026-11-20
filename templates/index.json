@@ -43,7 +43,8 @@
         "reflection_opacity": 25,
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "disabled": true
     },
     "collection_list_RnTAe3": {
       "type": "collection-list",
@@ -62,7 +63,7 @@
             "border_width": 1,
             "border_opacity": 100,
             "border_color": "",
-            "border_radius": 0
+            "border_radius": 8
           },
           "blocks": {
             "collection_title_icNVak": {
@@ -95,7 +96,7 @@
               "name": "t:names.collection_card_image",
               "static": true,
               "settings": {
-                "image_ratio": "landscape",
+                "image_ratio": "portrait",
                 "toggle_overlay": true,
                 "overlay_color": "#00000026",
                 "overlay_style": "solid",
@@ -112,6 +113,34 @@
           "block_order": [
             "collection_title_icNVak"
           ]
+        },
+        "category_caption": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Find your fit</p>",
+            "type_preset": "custom",
+            "alignment": "center",
+            "width": "100%",
+            "max_width": "normal",
+            "text_color": "#8C5A35",
+            "font": "var(--font-body--family)",
+            "font_size": "0.75rem",
+            "case": "uppercase",
+            "letter_spacing": "loose",
+            "line_height": "normal"
+          },
+          "blocks": {}
+        },
+        "category_heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Shop by category</h2>",
+            "type_preset": "h2",
+            "alignment": "center",
+            "width": "100%",
+            "max_width": "normal"
+          },
+          "blocks": {}
         }
       },
       "name": "t:names.collections_grid",
@@ -127,19 +156,23 @@
         "carousel_on_mobile": true,
         "columns": 5,
         "mobile_columns": "2",
-        "mobile_card_size": "44cqw",
-        "columns_gap": 8,
+        "mobile_card_size": "60cqw",
+        "columns_gap": 16,
         "bento_gap": 8,
-        "rows_gap": 8,
+        "rows_gap": 16,
         "max_collections": 4,
         "icons_style": "arrow",
         "icons_shape": "circle",
         "section_width": "page-width",
-        "gap": 12,
+        "gap": 28,
         "background_color": "",
-        "padding-block-start": 48,
-        "padding-block-end": 48
-      }
+        "padding-block-start": 72,
+        "padding-block-end": 40
+      },
+      "block_order": [
+        "category_caption",
+        "category_heading"
+      ]
     },
     "product_list_fa6P9H": {
       "type": "product-list",
@@ -188,8 +221,8 @@
               "type": "button",
               "name": "t:names.button",
               "settings": {
-                "label": "View All",
-                "link": "shopify://collections/all",
+                "label": "View all best sellers",
+                "link": "shopify://collections/best-sellers",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
@@ -213,14 +246,14 @@
           "name": "t:names.header",
           "static": true,
           "settings": {
-            "content_direction": "row",
+            "content_direction": "column",
             "vertical_on_mobile": false,
             "horizontal_alignment": "space-between",
             "vertical_alignment": "center",
             "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
+            "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
+            "gap": 8,
             "width": "fill",
             "custom_width": 100,
             "width_mobile": "fill",
@@ -242,15 +275,32 @@
             "padding-inline-end": 0
           },
           "blocks": {
+            "caption": {
+              "type": "_product-list-text",
+              "settings": {
+                "text": "<p>Most loved</p>",
+                "type_preset": "custom",
+                "alignment": "center",
+                "width": "100%",
+                "max_width": "normal",
+                "text_color": "#8C5A35",
+                "font": "var(--font-body--family)",
+                "font_size": "0.75rem",
+                "case": "uppercase",
+                "letter_spacing": "loose",
+                "line_height": "normal"
+              },
+              "blocks": {}
+            },
             "product_list_text_YFtzcL": {
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
+                "text": "<h2>Best sellers</h2>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
-                "type_preset": "h3",
+                "type_preset": "h2",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -270,6 +320,7 @@
             }
           },
           "block_order": [
+            "caption",
             "product_list_text_YFtzcL"
           ]
         },
@@ -377,20 +428,20 @@
         "collection": "best-sellers",
         "layout_type": "grid",
         "carousel_on_mobile": false,
-        "max_products": 10,
-        "columns": 5,
+        "max_products": 8,
+        "columns": 4,
         "mobile_columns": "2",
         "mobile_card_size": "60cqw",
-        "columns_gap": 8,
-        "rows_gap": 24,
+        "columns_gap": 16,
+        "rows_gap": 32,
         "icons_style": "arrow",
         "icons_shape": "none",
         "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 28,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "horizontal_alignment": "center",
+        "gap": 32,
+        "background_color": "",
+        "padding-block-start": 40,
+        "padding-block-end": 72
       }
     },
     "hero_fCyWpJ": {
@@ -427,7 +478,8 @@
         "reflection_opacity": 75,
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "disabled": true
     },
     "divider_9pCPYH": {
       "type": "divider",
@@ -442,7 +494,8 @@
         "alignment_horizontal": "center",
         "padding-block-start": 0,
         "padding-block-end": 0
-      }
+      },
+      "disabled": true
     },
     "product_list_9d76p4": {
       "type": "product-list",
@@ -491,8 +544,8 @@
               "type": "button",
               "name": "t:names.button",
               "settings": {
-                "label": "View All",
-                "link": "shopify://collections/all",
+                "label": "View all bodysuits",
+                "link": "shopify://collections/bodysuits",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "custom_button_background": "{{ settings.color_palette.foreground }}",
@@ -516,14 +569,14 @@
           "name": "t:names.header",
           "static": true,
           "settings": {
-            "content_direction": "row",
+            "content_direction": "column",
             "vertical_on_mobile": false,
             "horizontal_alignment": "space-between",
             "vertical_alignment": "center",
             "align_baseline": true,
-            "horizontal_alignment_flex_direction_column": "flex-start",
+            "horizontal_alignment_flex_direction_column": "center",
             "vertical_alignment_flex_direction_column": "center",
-            "gap": 12,
+            "gap": 8,
             "width": "fill",
             "custom_width": 100,
             "width_mobile": "fill",
@@ -545,15 +598,32 @@
             "padding-inline-end": 0
           },
           "blocks": {
+            "caption": {
+              "type": "_product-list-text",
+              "settings": {
+                "text": "<p>Curated for you</p>",
+                "type_preset": "custom",
+                "alignment": "center",
+                "width": "100%",
+                "max_width": "normal",
+                "text_color": "#8C5A35",
+                "font": "var(--font-body--family)",
+                "font_size": "0.75rem",
+                "case": "uppercase",
+                "letter_spacing": "loose",
+                "line_height": "normal"
+              },
+              "blocks": {}
+            },
             "product_list_text_TBKP7N": {
               "type": "_product-list-text",
               "name": "t:names.collection_title",
               "settings": {
-                "text": "<h3>{{ closest.collection.title }}</h3>",
+                "text": "<h2>Shop the bodysuit collection</h2>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "center",
-                "type_preset": "h3",
+                "type_preset": "h2",
                 "font": "var(--font-body--family)",
                 "font_size": "1rem",
                 "line_height": "normal",
@@ -573,6 +643,7 @@
             }
           },
           "block_order": [
+            "caption",
             "product_list_text_TBKP7N"
           ]
         },
@@ -678,22 +749,22 @@
       "name": "t:names.product_list",
       "settings": {
         "collection": "bodysuits",
-        "layout_type": "grid",
-        "carousel_on_mobile": false,
-        "max_products": 10,
-        "columns": 5,
+        "layout_type": "carousel",
+        "carousel_on_mobile": true,
+        "max_products": 8,
+        "columns": 4,
         "mobile_columns": "2",
         "mobile_card_size": "60cqw",
-        "columns_gap": 8,
+        "columns_gap": 16,
         "rows_gap": 24,
         "icons_style": "arrow",
-        "icons_shape": "none",
+        "icons_shape": "circle",
         "section_width": "page-width",
-        "horizontal_alignment": "flex-start",
-        "gap": 28,
-        "background_color": "{{ settings.color_palette.background }}",
-        "padding-block-start": 48,
-        "padding-block-end": 48
+        "horizontal_alignment": "center",
+        "gap": 32,
+        "background_color": "#F5EDE5",
+        "padding-block-start": 72,
+        "padding-block-end": 72
       }
     },
     "section_payCGp": {
@@ -758,15 +829,787 @@
         "padding-block-start": 0,
         "padding-block-end": 0
       }
+    },
+    "hero_campaign": {
+      "type": "hero",
+      "name": "Hero",
+      "settings": {
+        "image_1": "shopify://shop_images/image-2_60a40018-31f9-49a8-a810-0990c6601abc.webp",
+        "image_2": "shopify://shop_images/image-6_56b50139-f200-40aa-9278-7463e703f4a9.webp",
+        "custom_mobile_media": true,
+        "image_1_mobile": "shopify://shop_images/image-2_60a40018-31f9-49a8-a810-0990c6601abc.webp",
+        "section_width": "full-width",
+        "section_height": "custom",
+        "section_height_custom": 85,
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "vertical_alignment_flex_direction_column": "flex-end",
+        "gap": 16,
+        "toggle_overlay": true,
+        "overlay_style": "gradient",
+        "gradient_direction": "to top",
+        "overlay_color": "#1F15108C",
+        "padding-block-start": 48,
+        "padding-block-end": 64
+      },
+      "blocks": {
+        "caption": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Shape Luxe · Confidence in every curve</p>",
+            "type_preset": "custom",
+            "alignment": "center",
+            "width": "100%",
+            "max_width": "normal",
+            "text_color": "#FFFFFF",
+            "font": "var(--font-body--family)",
+            "font_size": "0.75rem",
+            "case": "uppercase",
+            "letter_spacing": "loose",
+            "line_height": "normal"
+          },
+          "blocks": {}
+        },
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h1>Confidence looks good on you</h1>",
+            "type_preset": "h1",
+            "alignment": "center",
+            "width": "100%",
+            "max_width": "narrow",
+            "text_color": "#FFFFFF"
+          },
+          "blocks": {}
+        },
+        "subheading": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Premium shapewear that smooths, sculpts and supports, so you feel like yourself in every outfit, every day.</p>",
+            "type_preset": "rte",
+            "alignment": "center",
+            "width": "100%",
+            "max_width": "narrow",
+            "text_color": "#FFFFFF",
+            "padding-block-end": 8
+          },
+          "blocks": {}
+        },
+        "buttons": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "horizontal_alignment": "center",
+            "gap": 12,
+            "width": "fill",
+            "vertical_on_mobile": false
+          },
+          "blocks": {
+            "shop": {
+              "type": "button",
+              "settings": {
+                "label": "Shop best sellers",
+                "link": "shopify://collections/best-sellers",
+                "style_class": "button-custom",
+                "custom_button_background": "#8C5A35",
+                "custom_button_text": "#FFFFFF",
+                "custom_button_border": "#8C5A35"
+              },
+              "blocks": {}
+            },
+            "all": {
+              "type": "button",
+              "settings": {
+                "label": "Shop all",
+                "link": "shopify://collections/all",
+                "style_class": "button-custom",
+                "custom_button_background": "#FFFFFF",
+                "custom_button_text": "#2B211B",
+                "custom_button_border": "#FFFFFF"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "shop",
+            "all"
+          ]
+        }
+      },
+      "block_order": [
+        "caption",
+        "heading",
+        "subheading",
+        "buttons"
+      ]
+    },
+    "brand_story": {
+      "type": "media-with-content",
+      "name": "Brand story",
+      "settings": {
+        "media_position": "left",
+        "media_width": "medium",
+        "media_height": "80svh",
+        "section_width": "full-width",
+        "background_color": "#F5EDE5"
+      },
+      "blocks": {
+        "media": {
+          "type": "_media-without-appearance",
+          "static": true,
+          "settings": {
+            "media_type": "image",
+            "image": "shopify://shop_images/image-2_655990b1-9a6e-4e1f-a1e5-84d6dc7e0831.webp",
+            "image_position": "cover"
+          },
+          "blocks": {}
+        },
+        "content": {
+          "type": "_content-without-appearance",
+          "static": true,
+          "settings": {
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "center",
+            "gap": 20
+          },
+          "blocks": {
+            "caption": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Why Shape Luxe</p>",
+                "type_preset": "custom",
+                "alignment": "left",
+                "width": "100%",
+                "max_width": "normal",
+                "text_color": "#8C5A35",
+                "font": "var(--font-body--family)",
+                "font_size": "0.75rem",
+                "case": "uppercase",
+                "letter_spacing": "loose",
+                "line_height": "normal"
+              },
+              "blocks": {}
+            },
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>Made for real bodies and real days</h2>",
+                "type_preset": "h2",
+                "alignment": "left",
+                "width": "100%",
+                "max_width": "narrow"
+              },
+              "blocks": {}
+            },
+            "text": {
+              "type": "text",
+              "settings": {
+                "text": "<p>Shape Luxe began with a simple belief: shapewear should feel as good as it looks. Every piece is designed to smooth and support without digging in, so you can move, sit and breathe comfortably from morning coffee to late dinners.</p><p>Comfort, confidence and everyday wear, in sizes and shades made for you.</p>",
+                "type_preset": "rte",
+                "alignment": "left",
+                "width": "100%",
+                "max_width": "narrow"
+              },
+              "blocks": {}
+            },
+            "button": {
+              "type": "button",
+              "settings": {
+                "label": "Discover the collection",
+                "link": "shopify://collections/all",
+                "style_class": "button-custom",
+                "custom_button_background": "#2B211B",
+                "custom_button_text": "#FFFFFF",
+                "custom_button_border": "#2B211B"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "caption",
+            "heading",
+            "text",
+            "button"
+          ]
+        }
+      }
+    },
+    "why_love_it": {
+      "type": "section",
+      "name": "Why you'll love it",
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "gap": 32,
+        "section_width": "page-width",
+        "background_color": "",
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      },
+      "blocks": {
+        "caption": {
+          "type": "text",
+          "settings": {
+            "text": "<p>The Shape Luxe difference</p>",
+            "type_preset": "custom",
+            "alignment": "center",
+            "width": "100%",
+            "max_width": "normal",
+            "text_color": "#8C5A35",
+            "font": "var(--font-body--family)",
+            "font_size": "0.75rem",
+            "case": "uppercase",
+            "letter_spacing": "loose",
+            "line_height": "normal"
+          },
+          "blocks": {}
+        },
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Why you'll love it</h2>",
+            "type_preset": "h2",
+            "alignment": "center",
+            "width": "100%",
+            "max_width": "normal"
+          },
+          "blocks": {}
+        },
+        "features": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "gap": 16,
+            "width": "fill",
+            "vertical_on_mobile": true
+          },
+          "blocks": {
+            "feature_1": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "background_color": "#FFFFFF",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "#E7D9CC",
+                "border_radius": 12,
+                "padding-block-start": 32,
+                "padding-block-end": 32,
+                "padding-inline-start": 20,
+                "padding-inline-end": 20
+              },
+              "blocks": {
+                "icon": {
+                  "type": "icon",
+                  "settings": {
+                    "icon": "arrow",
+                    "width": 32,
+                    "icon_color": "#8C5A35"
+                  },
+                  "blocks": {}
+                },
+                "title": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3>Four-way stretch</h3>",
+                    "type_preset": "h5",
+                    "alignment": "center",
+                    "width": "100%",
+                    "max_width": "normal"
+                  },
+                  "blocks": {}
+                },
+                "body": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Soft stretch that moves and recovers with you, all day long.</p>",
+                    "type_preset": "rte",
+                    "alignment": "center",
+                    "width": "100%",
+                    "max_width": "narrow"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "icon",
+                "title",
+                "body"
+              ]
+            },
+            "feature_2": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "background_color": "#FFFFFF",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "#E7D9CC",
+                "border_radius": 12,
+                "padding-block-start": 32,
+                "padding-block-end": 32,
+                "padding-inline-start": 20,
+                "padding-inline-end": 20
+              },
+              "blocks": {
+                "icon": {
+                  "type": "icon",
+                  "settings": {
+                    "icon": "heart",
+                    "width": 32,
+                    "icon_color": "#8C5A35"
+                  },
+                  "blocks": {}
+                },
+                "title": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3>Seamless comfort</h3>",
+                    "type_preset": "h5",
+                    "alignment": "center",
+                    "width": "100%",
+                    "max_width": "normal"
+                  },
+                  "blocks": {}
+                },
+                "body": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>No lines or bulges, just a smooth finish under every outfit.</p>",
+                    "type_preset": "rte",
+                    "alignment": "center",
+                    "width": "100%",
+                    "max_width": "narrow"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "icon",
+                "title",
+                "body"
+              ]
+            },
+            "feature_3": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "background_color": "#FFFFFF",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "#E7D9CC",
+                "border_radius": 12,
+                "padding-block-start": 32,
+                "padding-block-end": 32,
+                "padding-inline-start": 20,
+                "padding-inline-end": 20
+              },
+              "blocks": {
+                "icon": {
+                  "type": "icon",
+                  "settings": {
+                    "icon": "silhouette",
+                    "width": 32,
+                    "icon_color": "#8C5A35"
+                  },
+                  "blocks": {}
+                },
+                "title": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3>Sculpting support</h3>",
+                    "type_preset": "h5",
+                    "alignment": "center",
+                    "width": "100%",
+                    "max_width": "normal"
+                  },
+                  "blocks": {}
+                },
+                "body": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Targeted control for the tummy, waist and back where you want it.</p>",
+                    "type_preset": "rte",
+                    "alignment": "center",
+                    "width": "100%",
+                    "max_width": "narrow"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "icon",
+                "title",
+                "body"
+              ]
+            },
+            "feature_4": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "center",
+                "gap": 12,
+                "width": "fill",
+                "background_color": "#FFFFFF",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "#E7D9CC",
+                "border_radius": 12,
+                "padding-block-start": 32,
+                "padding-block-end": 32,
+                "padding-inline-start": 20,
+                "padding-inline-end": 20
+              },
+              "blocks": {
+                "icon": {
+                  "type": "icon",
+                  "settings": {
+                    "icon": "leaf",
+                    "width": 32,
+                    "icon_color": "#8C5A35"
+                  },
+                  "blocks": {}
+                },
+                "title": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<h3>Breathable fabric</h3>",
+                    "type_preset": "h5",
+                    "alignment": "center",
+                    "width": "100%",
+                    "max_width": "normal"
+                  },
+                  "blocks": {}
+                },
+                "body": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Lightweight knit that keeps you cool and comfortable.</p>",
+                    "type_preset": "rte",
+                    "alignment": "center",
+                    "width": "100%",
+                    "max_width": "narrow"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "icon",
+                "title",
+                "body"
+              ]
+            }
+          },
+          "block_order": [
+            "feature_1",
+            "feature_2",
+            "feature_3",
+            "feature_4"
+          ]
+        }
+      },
+      "block_order": [
+        "caption",
+        "heading",
+        "features"
+      ]
+    },
+    "customer_reviews": {
+      "type": "section",
+      "name": "Customer reviews",
+      "disabled": true,
+      "settings": {
+        "content_direction": "column",
+        "horizontal_alignment_flex_direction_column": "center",
+        "gap": 32,
+        "section_width": "page-width",
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      },
+      "blocks": {
+        "caption": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Reviews</p>",
+            "type_preset": "custom",
+            "alignment": "center",
+            "width": "100%",
+            "max_width": "normal",
+            "text_color": "#8C5A35",
+            "font": "var(--font-body--family)",
+            "font_size": "0.75rem",
+            "case": "uppercase",
+            "letter_spacing": "loose",
+            "line_height": "normal"
+          },
+          "blocks": {}
+        },
+        "heading": {
+          "type": "text",
+          "settings": {
+            "text": "<h2>Real women, real confidence</h2>",
+            "type_preset": "h2",
+            "alignment": "center",
+            "width": "100%",
+            "max_width": "normal"
+          },
+          "blocks": {}
+        },
+        "reviews": {
+          "type": "group",
+          "settings": {
+            "content_direction": "row",
+            "gap": 16,
+            "width": "fill",
+            "vertical_on_mobile": true
+          },
+          "blocks": {
+            "review_1": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 12,
+                "width": "fill",
+                "background_color": "#FFFFFF",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "#E7D9CC",
+                "border_radius": 12,
+                "padding-block-start": 28,
+                "padding-block-end": 28,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
+              },
+              "blocks": {
+                "stars": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>★★★★★</p>",
+                    "type_preset": "custom",
+                    "alignment": "left",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "text_color": "#8C5A35",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.125rem",
+                    "line_height": "normal"
+                  },
+                  "blocks": {}
+                },
+                "quote": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Replace with a real customer review.</p>",
+                    "type_preset": "rte",
+                    "alignment": "left",
+                    "width": "100%",
+                    "max_width": "normal"
+                  },
+                  "blocks": {}
+                },
+                "name": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Customer name, verified buyer</p>",
+                    "type_preset": "custom",
+                    "alignment": "left",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "text_color": "#2B211B",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.75rem",
+                    "case": "uppercase",
+                    "letter_spacing": "loose",
+                    "line_height": "normal"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "stars",
+                "quote",
+                "name"
+              ]
+            },
+            "review_2": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 12,
+                "width": "fill",
+                "background_color": "#FFFFFF",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "#E7D9CC",
+                "border_radius": 12,
+                "padding-block-start": 28,
+                "padding-block-end": 28,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
+              },
+              "blocks": {
+                "stars": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>★★★★★</p>",
+                    "type_preset": "custom",
+                    "alignment": "left",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "text_color": "#8C5A35",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.125rem",
+                    "line_height": "normal"
+                  },
+                  "blocks": {}
+                },
+                "quote": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Replace with a real customer review.</p>",
+                    "type_preset": "rte",
+                    "alignment": "left",
+                    "width": "100%",
+                    "max_width": "normal"
+                  },
+                  "blocks": {}
+                },
+                "name": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Customer name, verified buyer</p>",
+                    "type_preset": "custom",
+                    "alignment": "left",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "text_color": "#2B211B",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.75rem",
+                    "case": "uppercase",
+                    "letter_spacing": "loose",
+                    "line_height": "normal"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "stars",
+                "quote",
+                "name"
+              ]
+            },
+            "review_3": {
+              "type": "group",
+              "settings": {
+                "content_direction": "column",
+                "horizontal_alignment_flex_direction_column": "flex-start",
+                "gap": 12,
+                "width": "fill",
+                "background_color": "#FFFFFF",
+                "border": "solid",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_color": "#E7D9CC",
+                "border_radius": 12,
+                "padding-block-start": 28,
+                "padding-block-end": 28,
+                "padding-inline-start": 24,
+                "padding-inline-end": 24
+              },
+              "blocks": {
+                "stars": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>★★★★★</p>",
+                    "type_preset": "custom",
+                    "alignment": "left",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "text_color": "#8C5A35",
+                    "font": "var(--font-body--family)",
+                    "font_size": "1.125rem",
+                    "line_height": "normal"
+                  },
+                  "blocks": {}
+                },
+                "quote": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Replace with a real customer review.</p>",
+                    "type_preset": "rte",
+                    "alignment": "left",
+                    "width": "100%",
+                    "max_width": "normal"
+                  },
+                  "blocks": {}
+                },
+                "name": {
+                  "type": "text",
+                  "settings": {
+                    "text": "<p>Customer name, verified buyer</p>",
+                    "type_preset": "custom",
+                    "alignment": "left",
+                    "width": "100%",
+                    "max_width": "normal",
+                    "text_color": "#2B211B",
+                    "font": "var(--font-body--family)",
+                    "font_size": "0.75rem",
+                    "case": "uppercase",
+                    "letter_spacing": "loose",
+                    "line_height": "normal"
+                  },
+                  "blocks": {}
+                }
+              },
+              "block_order": [
+                "stars",
+                "quote",
+                "name"
+              ]
+            }
+          },
+          "block_order": [
+            "review_1",
+            "review_2",
+            "review_3"
+          ]
+        }
+      },
+      "block_order": [
+        "caption",
+        "heading",
+        "reviews"
+      ]
     }
   },
   "order": [
-    "hero_jVaWmY",
+    "hero_campaign",
     "collection_list_RnTAe3",
     "product_list_fa6P9H",
-    "hero_fCyWpJ",
-    "divider_9pCPYH",
+    "brand_story",
+    "why_love_it",
     "product_list_9d76p4",
-    "section_payCGp"
+    "customer_reviews",
+    "section_payCGp",
+    "hero_jVaWmY",
+    "hero_fCyWpJ",
+    "divider_9pCPYH"
   ]
 }

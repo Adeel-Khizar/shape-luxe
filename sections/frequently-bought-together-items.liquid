@@ -1,0 +1,80 @@
+{% comment %}
+  Section contract.
+  Rendering-only section for the Frequently bought together block. Requested through the
+  product recommendations endpoint, so `recommendations` holds the products to offer.
+  @example
+  <!-- /recommendations/products?product_id=123&limit=2&intent=complementary&section_id=frequently-bought-together-items -->
+{% endcomment %}
+
+<div data-fbt-items>
+  {%- for recommended_product in recommendations.products -%}
+    {%- unless recommended_product.available -%}
+      {%- continue -%}
+    {%- endunless -%}
+    {%- liquid
+      assign recommended_variant = recommended_product.selected_or_first_available_variant
+      assign checkbox_id = 'FbtItem-' | append: recommended_product.id
+    -%}
+    <li class="fbt__item" data-fbt-item>
+      <div class="fbt__summary">
+        <input
+          type="checkbox"
+          class="fbt__checkbox"
+          id="{{ checkbox_id }}"
+          aria-label="{{ 'products.frequently_bought_together.include' | t: title: recommended_product.title | escape }}"
+          on:change="/handleChange"
+          checked
+        >
+        <a class="fbt__media" href="{{ recommended_product.url }}" tabindex="-1" aria-hidden="true">
+          {%- if recommended_product.featured_media -%}
+            {{
+              recommended_product.featured_media
+              | image_url: width: 160
+              | image_tag: loading: 'lazy', widths: '80, 160', sizes: '80px', alt: ''
+            }}
+          {%- endif -%}
+        </a>
+        <div class="fbt__details">
+          <a class="fbt__title" href="{{ recommended_product.url }}">{{ recommended_product.title | escape }}</a>
+          <input
+            type="hidden"
+            data-fbt-variant
+            value="{{ recommended_variant.id }}"
+            data-price="{{ recommended_variant.price }}"
+          >
+        </div>
+        <span class="fbt__price price"
+          ><bdi>{{ recommended_variant.price | money }}</bdi></span
+        >
+      </div>
+      {%- unless recommended_product.has_only_default_variant -%}
+        {%- assign name_prefix = checkbox_id | append: '-option' -%}
+        <div class="fbt__options">
+          {% render 'variant-option-buttons',
+            product_resource: recommended_product,
+            name_prefix: name_prefix,
+            on_change: '/handleOptionChange',
+            legend_prefix: recommended_product.title,
+            compact: true
+          %}
+          <span class="fbt__item-error" hidden>{{ 'products.product.sold_out' | t }}</span>
+        </div>
+        <script type="application/json" data-fbt-variants>
+          [
+            {%- for variant in recommended_product.variants -%}
+              {"id":{{ variant.id }},"options":{{ variant.options | json }},"price":{{ variant.price }},"available":{{ variant.available }}}{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          ]
+        </script>
+      {%- endunless -%}
+    </li>
+  {%- endfor -%}
+</div>
+
+{% render 'frequently-bought-together-styles' %}
+
+{% schema %}
+{
+  "name": "t:names.frequently_bought_together_rendering"
+}
+{% endschema %}

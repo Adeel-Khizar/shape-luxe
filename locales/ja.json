@@ -313,6 +313,20 @@
     "blog_post_description": "ブログ記事の内容の抜粋"
   },
   "products": {
+    "frequently_bought_together": {
+      "this_item": "This item",
+      "include": "Include {{ title }}",
+      "choose_option": "Choose an option for {{ title }}",
+      "total": "Total price:",
+      "add_selected": "Add selected to cart"
+    },
+    "bundle_offer": {
+      "buy_quantity": "Buy {{ quantity }}",
+      "percent_off": "{{ percent }}% off",
+      "item_number": "Item {{ number }}",
+      "unavailable": "This combination is sold out",
+      "choose_available": "Choose an available color and size for each item."
+    },
     "product": {
       "add_to_cart": "カートに追加する",
       "added_to_cart": "カートに追加済み",

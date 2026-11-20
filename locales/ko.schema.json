@@ -9,6 +9,9 @@
  */
 {
   "names": {
+    "frequently_bought_together": "Bought together",
+    "frequently_bought_together_rendering": "Bought together items",
+    "bundle_offer": "Bundle offer",
     "404": "404",
     "custom_section": "사용자 지정 섹션",
     "icon": "아이콘",
@@ -171,6 +174,15 @@
     "disclosures": "고지 사항"
   },
   "settings": {
+    "fbt_max_products": "Recommended products",
+    "bundle_subheading": "Subheading",
+    "bundle_tier_2_discount": "Buy 2 discount",
+    "bundle_tier_3_discount": "Buy 3 discount",
+    "bundle_tier_4_discount": "Buy 4 discount",
+    "bundle_default_tier": "Preselected option",
+    "bundle_best_value_tier": "Badge on",
+    "bundle_badge_text": "Badge text",
+    "bundle_card_background": "Card background",
     "autoplay": "자동 재생",
     "background": "배경",
     "border_radius": "모서리 반경",
@@ -586,6 +598,10 @@
     "title_preset": "제목 사전 설정"
   },
   "options": {
+    "bundle_buy_1": "Buy 1",
+    "bundle_buy_2": "Buy 2",
+    "bundle_buy_3": "Buy 3",
+    "bundle_buy_4": "Buy 4",
     "apple": "Apple",
     "arrow": "화살표",
     "banana": "바나나",
@@ -868,6 +884,9 @@
     "direction_top_start": "왼쪽 상단"
   },
   "content": {
+    "fbt_recommendations_info": "Shows complementary products set in the Shopify Search & Discovery app. Falls back to related products when none are set.",
+    "bundle_discounts": "Discount tiers",
+    "bundle_discounts_info": "Prices shown here are a preview. Create matching Shopify automatic discounts so checkout charges the same amounts.",
     "background_video": "배경 비디오",
     "describe_the_video_for": "스크린리더를 사용하는 고객에게 슬라이드 쇼를 설명합니다. [자세히 알아보기](https://help.shopify.com/manual/online-store/themes/theme-structure/theme-features#video-block)",
     "width_is_automatically_optimized": "너비는 모바일에 맞게 자동으로 최적화됩니다.",
